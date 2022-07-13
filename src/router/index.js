@@ -1,22 +1,68 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/login')
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/sys',
+    name: 'sys',
+    component: () => import('@/layout'),
+    meta: {
+      title: '系统管理',
+      icon: 's-grid'
+    },
+    children: [
+      {
+        path: '/sys/users',
+        name: 'users',
+        component: () => import('../views/users'),
+        meta: {
+          title: '用户管理',
+          icon: 'user'
+        }
+      },
+      {
+        path: '/sys/roles',
+        name: 'roles',
+        component: () => import('../views/roles'),
+        meta: {
+          title: '角色管理',
+          icon: 'user-solid'
+        }
+      },
+      {
+        path: '/sys/menus',
+        name: 'menus',
+        component: () => import('../views/menus'),
+        meta: {
+          title: '菜单管理',
+          icon: 'menu'
+        }
+      }
+    ]
+  },
+  {
+    path: '/',
+    name: 'layout',
+    component: () => import('@/layout'),
+    redirect: '/',
+    children: [
+      {
+        path: '/',
+        name: 'index',
+        component: () => import('../views/index'),
+        meta: {
+          title: '控制台',
+          icon: 'personnel'
+        }
+      }
+    ]
   }
 ]
 
